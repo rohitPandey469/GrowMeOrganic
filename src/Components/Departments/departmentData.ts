@@ -1,4 +1,4 @@
-// Import the data into JSON format then convert it 
+// Import the data into JSON format then convert it
 // into this format
 export const departmentData = [
   {
@@ -20,3 +20,17 @@ export const departmentData = [
     ],
   },
 ];
+
+export const MutatedDepartmentData = departmentData.reduce(
+  (acc: Record<string, any>, department) => {
+    acc[department.name] = department.subDepartments.reduce(
+      (subAcc: Record<string, any>, subDept) => {
+        subAcc[subDept.name] = false;
+        return subAcc;
+      },
+      {}
+    );
+    return acc;
+  },
+  {}
+);

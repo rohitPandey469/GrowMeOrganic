@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 
 interface Post {
   userId: number;
@@ -30,24 +30,26 @@ export default function DataGridTable() {
   ];
 
   return (
-    <Box sx={{ height: 400, width: "50%" }}>
-      <Typography variant="h4" gutterBottom>
-        Posts
-      </Typography>
-      <DataGrid
-        rows={posts}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
+    <Container sx={{ display: "flex", justifyContent: "center", height:500 }}>
+      <Box sx={{ height: 400, width: "80%" }}>
+        <Typography variant="h4" gutterBottom>
+          Posts
+        </Typography>
+        <DataGrid
+          rows={posts}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
             },
-          },
-        }}
-        pageSizeOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
-      />
-    </Box>
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </Box>
+    </Container>
   );
 }
