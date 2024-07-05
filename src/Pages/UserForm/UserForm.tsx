@@ -30,7 +30,10 @@ export const UserForm: React.FC = () => {
     // Stored
     localStorage.setItem("formData", JSON.stringify(formData));
 
-    navigate("/second-page", {});
+    setTimeout(() => {
+      console.log("navigating")
+      navigate("/second-page", {});
+    }, 1000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

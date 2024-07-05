@@ -4,7 +4,7 @@ import { Error } from "./Pages/Error/Error";
 import { PrivateRoute } from "./Components/PrivateRoute/PrivateRoute";
 import { MainPage } from "./Pages/MainPage/MainPage";
 
-const isAuthenticated = () => {
+export const isAuthenticated = () => {
   if (localStorage.getItem("formData")) {
     return true;
   }
@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
     index: true,
   },
   {
-    element: <PrivateRoute isAuthenticated={isAuthenticated()} />,
+    element: <PrivateRoute isAuthenticated={isAuthenticated} />,
     children: [
       {
         path: "/second-page",
