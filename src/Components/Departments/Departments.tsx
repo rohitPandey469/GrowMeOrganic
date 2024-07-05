@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { departmentData, MutatedDepartmentData } from "./departmentData";
+import { MutatedDepartmentData } from "./departmentData";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
   Checkbox,
@@ -11,10 +11,10 @@ import {
   ListItemText,
 } from "@mui/material";
 
-interface Department {
-  name: string;
-  subDepartments: { name: string }[];
-}
+// interface Department {
+//   name: string;
+//   subDepartments: { name: string }[];
+// }
 
 export default function Departments() {
   const [open, setOpen] = useState<Record<string, boolean>>({});
