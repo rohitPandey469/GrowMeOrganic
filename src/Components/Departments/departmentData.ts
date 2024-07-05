@@ -25,7 +25,7 @@ export const MutatedDepartmentData = departmentData.reduce(
   (acc: Record<string, any>, department) => {
     acc[department.name] = department.subDepartments.reduce(
       (subAcc: Record<string, any>, subDept) => {
-        subAcc[subDept.name] = true;
+        subAcc[subDept.name] = false;
         return subAcc;
       },
       {}
