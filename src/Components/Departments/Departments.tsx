@@ -27,35 +27,24 @@ export default function Departments() {
   };
 
   const handleSelect = (departmentName: string, subDepartmentName?: string) => {
-    console.log(departmentName, subDepartmentName);
-    setSelected((prevSelected) => {
-      const newSelected = { ...prevSelected };
-
+    setSelected((prevState) => {
+      const newSelected = { ...prevState };
+  
       if (subDepartmentName) {
-        // Toggle the specific sub-department
-        const department = newSelected[departmentName];
-        department[subDepartmentName] = !department[subDepartmentName];
-
-        // If all sub-departments are selected, mark the department as selected
-        if (Object.values(department).every((value) => value)) {
-          Object.keys(department).forEach((subDept) => {
-            department[subDept] = true;
-          });
-        } else {
-          // If any sub-department is unselected, mark the department as partially selected
-          Object.keys(department).forEach((subDept) => {
-            department[subDept] = false;
-          });
-        }
+        newSelected[departmentName] = {
+          ...newSelected[departmentName],
+          [subDepartmentName]: !newSelected[departmentName][subDepartmentName],
+        };
       } else {
-        // Toggle all sub-departments
-        const department = newSelected[departmentName];
-        const newState = !Object.values(department).every((value) => value);
-        Object.keys(department).forEach((subDept) => {
-          department[subDept] = newState;
-        });
+        const newState = !Object.values(prevState[departmentName]).every(Boolean);
+        newSelected[departmentName] = Object.fromEntries(
+          Object.keys(prevState[departmentName]).map((subDept) => [
+            subDept,
+            newState,
+          ])
+        );
       }
-
+  
       return newSelected;
     });
   };
@@ -63,35 +52,33 @@ export default function Departments() {
   return (
     <Container sx={{ display: "flex", justifyContent: "center" }}>
       <List>
-        {departmentData.map((dept: Department) => (
-          <React.Fragment key={dept.name}>
+        {Object.keys(selected).map((departmentName) => (
+          <React.Fragment key={departmentName}>
             <ListItem>
               <Checkbox
                 edge="start"
-                checked={Object.values(selected[dept.name] || {}).every(
-                  Boolean
-                )}
+                checked={Object.values(selected[departmentName]).every(Boolean)}
                 tabIndex={-1}
                 disableRipple
-                onChange={() => handleSelect(dept.name)}
+                onChange={() => handleSelect(departmentName)}
               />
-              <ListItemText primary={dept.name} />
-              <IconButton onClick={() => handleToggle(dept.name)}>
-                {open[dept.name] ? <ExpandLess /> : <ExpandMore />}
+              <ListItemText primary={departmentName} />
+              <IconButton onClick={() => handleToggle(departmentName)}>
+                {open[departmentName] ? <ExpandLess /> : <ExpandMore />}
               </IconButton>
             </ListItem>
-            <Collapse in={open[dept.name]} timeout="auto" unmountOnExit>
+            <Collapse in={open[departmentName]} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                {dept.subDepartments.map((subDept) => (
-                  <ListItem key={subDept.name} style={{ paddingLeft: "2rem" }}>
+                {Object.keys(selected[departmentName]).map((subDeptName) => (
+                  <ListItem key={subDeptName} style={{ paddingLeft: "2rem" }}>
                     <Checkbox
                       edge="start"
-                      checked={selected[dept.name]?.[subDept.name] || false}
+                      checked={selected[departmentName][subDeptName]}
                       tabIndex={-1}
                       disableRipple
-                      onChange={() => handleSelect(dept.name, subDept.name)}
+                      onChange={() => handleSelect(departmentName, subDeptName)}
                     />
-                    <ListItemText primary={subDept.name} />
+                    <ListItemText primary={subDeptName} />
                   </ListItem>
                 ))}
               </List>
